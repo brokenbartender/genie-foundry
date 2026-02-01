@@ -23,6 +23,9 @@ Create `C:\Users\codym\Documents\ai-app-factory\.env.local` and add:
 
 ```
 OPENAI_API_KEY=your_key_here
+OPENAI_MODEL=gpt-4o-mini
+DEMO_ORIGIN=https://your-demo-site.example.com
+DEMO_KEY=optional-demo-key
 ```
 
 Database is local SQLite by default. Prisma uses `.env` for `DATABASE_URL`:
@@ -39,9 +42,10 @@ npx prisma migrate dev
 
 ## Next steps
 
-1. Wire `/api/genie` to the OpenAI Responses API.
-2. Add an agent orchestrator (planner → builders → QA → release).
-3. Add code generation templates and a deployment pipeline.
+1. `/api/genie` is wired to the OpenAI Responses API.
+2. Optional LexiPro demo endpoints: `/api/lexi/analyze` and `/api/lexi/chat` (CORS safe).
+3. Add an agent orchestrator (planner → builders → QA → release).
+4. Add code generation templates and a deployment pipeline.
 
 ## Project layout
 
