@@ -1,7 +1,7 @@
 import path from "path";
 import { promises as fs } from "fs";
 import { prisma } from "@/lib/prisma";
-import { generateScaffold } from "@/lib/generator";
+import { generateAppCode, generateScaffold } from "@/lib/generator";
 import { generateAppScaffold } from "@/lib/scaffold";
 import { execFile } from "child_process";
 import { promisify } from "util";
@@ -157,6 +157,7 @@ export async function runOrchestrator(
 
     const generatedArtifacts = await generateScaffold(workspace, spec);
     const appArtifacts = await generateAppScaffold(workspace, spec);
+    const codeArtifacts = await generateAppCode(workspace, spec);
     await prisma.artifact.createMany({
       data: generatedArtifacts.map((artifactPath) => ({
         runId: run.id,
@@ -169,6 +170,14 @@ export async function runOrchestrator(
       data: appArtifacts.map((artifactPath) => ({
         runId: run.id,
         type: "app",
+        path: artifactPath,
+      })),
+    });
+
+    await prisma.artifact.createMany({
+      data: codeArtifacts.map((artifactPath) => ({
+        runId: run.id,
+        type: "codegen",
         path: artifactPath,
       })),
     });

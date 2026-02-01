@@ -25,6 +25,10 @@ const workspace = path.join(root, latest);
 const expected = [
   "manifest.json",
   "app-spec.json",
+  path.join("app", "full", "package.json"),
+  path.join("app", "full", "tsconfig.json"),
+  path.join("app", "full", "app", "layout.tsx"),
+  path.join("app", "full", "app", "page.tsx"),
   path.join("app", "template", "app", "dashboard", "page.tsx"),
   path.join("app", "template", "app", "records", "page.tsx"),
   path.join("app", "template", "app", "entities", "page.tsx"),
