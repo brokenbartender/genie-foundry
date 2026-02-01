@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Build {
+  id           String   @id @default(cuid())
+  problem      String
+  summary      String
+  domain       String
+  stack        Json
+  plan         Json
+  deliverables Json
+  runs         BuildRun[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model BuildRun {
+  id        String      @id @default(cuid())
+  build     Build       @relation(fields: [buildId], references: [id])
+  buildId   String
+  status    String
+  steps     BuildStep[]
+  artifacts Artifact[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model BuildStep {
+  id        String   @id @default(cuid())
+  run       BuildRun @relation(fields: [runId], references: [id])
+  runId     String
+  name      String
+  status    String
+  detail    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Artifact {
+  id        String   @id @default(cuid())
+  run       BuildRun @relation(fields: [runId], references: [id])
+  runId     String
+  type      String
+  path      String
+  createdAt DateTime @default(now())
+}
